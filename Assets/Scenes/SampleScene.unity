@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 42671847}
   - component: {fileID: 42671846}
   - component: {fileID: 42671848}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ Transform:
   m_GameObject: {fileID: 42671845}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.44415033, y: -4.89, z: 0}
+  m_LocalPosition: {x: -0.44415033, y: -5.56, z: 0}
   m_LocalScale: {x: 30, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -306,8 +306,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0063780546, y: -0.36354917}
-  m_Size: {x: 0.8341706, y: 1.0943164}
+  m_Offset: {x: -0.03102827, y: -0.42380512}
+  m_Size: {x: 0.73009205, y: 1.2148283}
   m_Direction: 0
 --- !u!50 &367163864
 Rigidbody2D:
@@ -324,7 +324,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -445,7 +445,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8150aabf78f5c42bd912efb4bd127a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 10
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  rayLength: 1.5
+  playerSpeed: 8
+  jumpSpeed: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
