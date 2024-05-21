@@ -8,11 +8,13 @@ public class AdamMovement : MonoBehaviour
 {
     public LayerMask groundLayer;
     public float rayLength = 1.5f;
-
-    private Rigidbody2D myRigidBody;
-
     public float playerSpeed = 8f;
     public float jumpSpeed = 8f;
+
+
+    private Rigidbody2D myRigidBody;
+    private Animator myAnimator;
+    private SpriteRenderer mySpriteRenderer;
 
     Vector2 moveInput;
 
@@ -21,25 +23,37 @@ public class AdamMovement : MonoBehaviour
     void Start()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
-
+        myAnimator = GetComponent<Animator>();
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Run();
+        Walk();
+        Animate();
+        Flip();
     }
 
     private void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+        // Debug.Log(moveInput);
     }
 
-    private void Run()
+    private void Walk()
     {
         Vector2 playerVelocity = new Vector2(moveInput.x * playerSpeed, myRigidBody.velocity.y);
 
         myRigidBody.velocity = playerVelocity;
+
+        if( Mathf.Abs( playerVelocity.x) < Mathf.Epsilon )
+        {
+            myAnimator.SetBool("isWalking", false);
+        } else
+        {
+            myAnimator.SetBool("isWalking", true);
+        }
     }
 
     private void OnJump(InputValue value)
@@ -61,5 +75,31 @@ public class AdamMovement : MonoBehaviour
         Debug.DrawRay(this.transform.position, Vector2.down * rayLength, Color.red, duration:1f);
 
         return hit.collider != null;
+    }
+
+    private void Animate()
+    {
+        if (IsGrounded())
+        {
+            myAnimator.SetBool("isJumping", false);
+        } else
+        {
+            myAnimator.SetBool("isJumping", true);
+        }
+    }
+
+    private void Flip()
+    {
+
+        if (myRigidBody.velocity.x < 0)
+        {
+            mySpriteRenderer.flipX = true;
+
+        }
+
+        if(myRigidBody.velocity.x > 0)
+        {
+            mySpriteRenderer.flipX = false;
+        }
     }
 }
