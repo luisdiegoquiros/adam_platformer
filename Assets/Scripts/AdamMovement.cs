@@ -8,12 +8,13 @@ public class AdamMovement : MonoBehaviour
 {
     public LayerMask groundLayer;
     public float rayLength = 1.5f;
+    public float playerSpeed = 8f;
+    public float jumpSpeed = 8f;
+
 
     private Rigidbody2D myRigidBody;
     private Animator myAnimator;
-
-    public float playerSpeed = 8f;
-    public float jumpSpeed = 8f;
+    private SpriteRenderer mySpriteRenderer;
 
     Vector2 moveInput;
 
@@ -23,13 +24,13 @@ public class AdamMovement : MonoBehaviour
     {
         myRigidBody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
-
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Run();
+        Walk();
         Animate();
         Flip();
     }
@@ -40,18 +41,18 @@ public class AdamMovement : MonoBehaviour
         // Debug.Log(moveInput);
     }
 
-    private void Run()
+    private void Walk()
     {
         Vector2 playerVelocity = new Vector2(moveInput.x * playerSpeed, myRigidBody.velocity.y);
 
         myRigidBody.velocity = playerVelocity;
 
-        if(playerVelocity.x > 0)
+        if( Mathf.Abs( playerVelocity.x) < Mathf.Epsilon )
         {
-            myAnimator.SetBool("isRunning", true);
+            myAnimator.SetBool("isWalking", false);
         } else
         {
-            myAnimator.SetBool("isRunning", false);
+            myAnimator.SetBool("isWalking", true);
         }
     }
 
@@ -89,12 +90,16 @@ public class AdamMovement : MonoBehaviour
 
     private void Flip()
     {
+
         if (myRigidBody.velocity.x < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-        } else
+            mySpriteRenderer.flipX = true;
+
+        }
+
+        if(myRigidBody.velocity.x > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            mySpriteRenderer.flipX = false;
         }
     }
 }
